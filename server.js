@@ -30,6 +30,17 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Use our routes
 app.use('/', routes);
 
+// Catch-all for undefined routes
+app.use((req, res, next) => {
+    res.status(404).render('error', { errorMessage: 'Page not found.' });
+});
+
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`
+     __________   ____ __  _____  __   ____  ___   ___  _______     ___________ _   _________ 
+  / __/  _/ /  / __// / / / _ \/ /  / __ \/ _ | / _ \/ __/ _ \   / __/ __/ _ \ | / / __/ _ \
+ / _/_/ // /__/ _/ / /_/ / ___/ /__/ /_/ / __ |/ // / _// , _/  _\ \/ _// , _/ |/ / _// , _/
+/_/ /___/____/___/ \____/_/  /____/\____/_/ |_/____/___/_/|_|  /___/___/_/|_||___/___/_/|_| 
+ 
+ file uploader server running on ${PORT}`);
 });
