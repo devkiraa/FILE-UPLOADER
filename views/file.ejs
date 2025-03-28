@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View File</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center p-4">
+  <div class="bg-white p-6 rounded shadow w-full max-w-3xl">
+    <h1 class="text-2xl font-bold mb-4">Viewing: <%= file.originalname %></h1>
+    <!-- If it's an image, display it; otherwise, instruct the user to download -->
+    <% if(file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) { %>
+      <img src="/uploads/<%= file.filename %>" alt="<%= file.originalname %>" class="max-w-full h-auto">
+    <% } else { %>
+      <p>This file is not viewable directly. Please download to view.</p>
+    <% } %>
+    <div class="mt-4 flex space-x-4">
+      <a href="/download/<%= file.id %>" class="bg-green-500 text-white px-4 py-2 rounded">Download</a>
+      <!-- New View Button -->
+      <button onclick="viewFile('<%= file.filename %>')" class="bg-blue-500 text-white px-4 py-2 rounded">View File</button>
+    </div>
+  </div>
+
+  <script>
+    function viewFile(filename) {
+      const url = window.location.origin + '/uploads/' + filename;
+      navigator.clipboard.writeText(url);
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
